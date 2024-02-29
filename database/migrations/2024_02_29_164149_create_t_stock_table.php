@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_kategori', function (Blueprint $table) {
-            //primary key kategori_id
-            $table->id('kategori_id');
-            $table->string('kategori_nama', 100);
-            $table->foreignId('kategori_kode');
+        Schema::create('t_stock', function (Blueprint $table) {
+            //primary key stock_id
+            $table->id('stock_id');
+            $table->foreignId('barang_id');
+            $table->foreignId('user_id');
+            $table->datetime('stock_tanggal');
+            $table->integer('stock_jumlah');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m_kategori');
+        Schema::dropIfExists('t_stock');
     }
 };
