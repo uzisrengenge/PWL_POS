@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('t_penjualan_detail', function (Blueprint $table) {
             //detail_id
             $table->id('detail_id');
-            //penjualan_id
+            //foreign
             $table->foreignId('penjualan_id');
-            //barang_id
             $table->foreignId('barang_id');
             //harga
             $table->integer('harga');
@@ -24,6 +23,9 @@ return new class extends Migration
             $table->integer('jumlah');
 
             $table->timestamps();
+
+            //refrences
+
         });
     }
 

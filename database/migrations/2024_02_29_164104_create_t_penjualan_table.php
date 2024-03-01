@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('t_penjualan', function (Blueprint $table) {
             //primary key penjualan_id
             $table->id('penjualan_id');
-            //foreign key user_id
+            //foreign
             $table->foreignId('user_id');
             //pembeli
             $table->string('pembeli');
@@ -24,6 +24,8 @@ return new class extends Migration
             $table->datetime('penjualan_tanggal');
 
             $table->timestamps();
+
+            //refrences
         });
     }
 
