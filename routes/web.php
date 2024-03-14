@@ -37,7 +37,7 @@ Route::get('/user/tambah',[UserController::class,'tambah'] )->name('/user/tambah
 Route::get('/user/edit/{id}',[UserController::class,'ubah'])->name('/user/ubah');
 
 //hapus
-Route::get('/user/hapus/{id}',[UserController::class,'hapus'])->name('/user/hapus');
+Route::get('/user/delete/{id}',[UserController::class,'hapus'])->name('/user/hapus');
 
 //users
 Route::get('/users',[UserController::class,'index'] )->name('/users');

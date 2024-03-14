@@ -10,6 +10,11 @@ class UserController extends Controller
 {
     public function index()
     {
+        $user = UserModel::with('level')->get();
+        return view('user', ['data' => $user]);
+
+        // $user = UserModel::with('level')->get();
+        // dd($user);
 
         // $user = UserModel::all();
         // return view('user', ['data' => $user]);
@@ -30,8 +35,8 @@ class UserController extends Controller
         // UserModel::where('username', 'johndoe')->update($data);
 
 
-       $user = UserModel::all();
-         return view('user', ['data' => $user]);
+    //    $user = UserModel::all();
+    //      return view('user', ['data' => $user]);
 
     // $user = UserModel::find(1);
     // return view('user', ['data' => $user]);
@@ -184,6 +189,7 @@ class UserController extends Controller
         $user->delete();
 
         return redirect('/user');
+
     }
 
 }
