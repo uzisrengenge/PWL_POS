@@ -42,6 +42,37 @@ class UserController extends Controller
     // $user = UserModel::findOrfail(1);
     // return view('user', ['data' => $user]);
 
+    // $user = UserModel::where('username','manager9' )->firstOrfail();
+    // return view('user', ['data' => $user]);
+
+    // $user = UserModel::where('level_id', 2)->count();
+    // dd($user);
+    // return view('user', ['data' => $user]);
+
+
+    // $user = UserModel::firstOrCreate(
+    //     [
+    //         'username' => 'manager',
+    //         'nama' => 'manager',
+    //     ],
+
+    // );
+    // return view('user', ['data' => $user]);
+
+
+    // $user = UserModel::firstOrCreate(
+    //     [
+    //         'username' => 'manager22',
+    //         'nama' => 'manager dua dua',
+    //         'password' => Hash::make('12345'),
+    //         'level_id' => 2
+    //     ],
+    // );
+
+
+
+    return view('user', ['data' => $user]);
+
 
     }
 }
