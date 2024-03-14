@@ -11,14 +11,14 @@ class UserController extends Controller
     public function index()
     {
 
-        // $data = [
-        //     'username' => 'johndoe',
-        //     'nama' => 'John Doe',
-        //     'password' => Hash::make('12345'),
-        //     'level_id' => 1
-        // ];
+        $data = [
+            'username' => 'manager_dua',
+            'nama' => 'manager 2',
+            'password' => Hash::make('12345'),
+            'level_id' => 2
+        ];
 
-        // UserModel::insert($data);
+        UserModel::create($data);
 
         //update
         $data = [
