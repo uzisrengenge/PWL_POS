@@ -29,3 +29,23 @@ Route::get('/kategori', [KategoriController::class, 'index']);
 
 //user Con
 Route::get('/user',[UserController::class,'index'] );
+
+
+Route::get('/user/tambah',[UserController::class,'tambah'] )->name('/user/tambah');
+
+//ubah
+Route::get('/user/edit/{id}',[UserController::class,'ubah'])->name('/user/ubah');
+
+//hapus
+Route::get('/user/hapus/{id}',[UserController::class,'hapus'])->name('/user/hapus');
+
+//users
+Route::get('/users',[UserController::class,'index'] )->name('/users');
+
+//tambah simpan
+Route::post('/user/tambah_simpan',[UserController::class,'tambah_simpan'])->name('/user/tambah_simpan');
+
+//ubah simpan
+Route::post('/user/ubah_simpan', [UserController::class, 'ubah_simpan'])->name('user.ubah_simpan');
+
+

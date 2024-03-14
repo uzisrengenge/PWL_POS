@@ -11,6 +11,9 @@ class UserController extends Controller
     public function index()
     {
 
+        // $user = UserModel::all();
+        // return view('user', ['data' => $user]);
+
         // $data = [
         //     'username' => 'manager_tiga',
         //     'nama' => 'manager 3',
@@ -27,8 +30,8 @@ class UserController extends Controller
         // UserModel::where('username', 'johndoe')->update($data);
 
 
-    //    $user = UserModel::all();
-    //      return view('user', ['data' => $user]);
+       $user = UserModel::all();
+         return view('user', ['data' => $user]);
 
     // $user = UserModel::find(1);
     // return view('user', ['data' => $user]);
@@ -113,27 +116,74 @@ class UserController extends Controller
     //     dd($user->isDirty());
 
 
-    $user = UserModel::create(
-            [
-                'username' => 'manager11',
-                'nama' => 'Manager11',
-                'password' => Hash::make('12345'),
-                'level_id' => 2
-            ]
-            );
+    // $user = UserModel::create(
+    //         [
+    //             'username' => 'manager11',
+    //             'nama' => 'Manager11',
+    //             'password' => Hash::make('12345'),
+    //             'level_id' => 2
+    //         ]
+    //         );
 
-            $user->username = 'manager12';
+    //         $user->username = 'manager12';
 
-            $user->save();
+    //         $user->save();
 
 
-            $user->wasChanged();
-            $user->wasChanged('username');
-            $user->wasChanged(['username','level_id']);
+    //         $user->wasChanged();
+    //         $user->wasChanged('username');
+    //         $user->wasChanged(['username','level_id']);
 
-            $user->wasChanged('nama');
-            dd($user->wasChanged(['nama','username']));
-
+    //         $user->wasChanged('nama');
+    //         dd($user->wasChanged(['nama','username']));
 
     }
+    public function tambah()
+    {
+        return view('user_tambah');
+    }
+
+    public function tambah_simpan(Request $request)
+    {
+        $data = [
+            'username' => $request->username,
+            'nama' => $request->nama,
+            'password' => Hash::make($request->password),
+            'level_id' => $request->level_id
+        ];
+
+        UserModel::create($data);
+        return redirect('/user');
+
+    }
+
+    public function ubah($id)
+    {
+        $user = UserModel::find($id);
+        return view('user_ubah', ['data' => $user]);
+    }
+
+    //ubah simpan
+    public function ubah_simpan(Request $request)
+{
+    $id = $request->user_id; // Change from $request->user_id to $request->id
+    $data = [
+        'username' => $request->username,
+        'nama' => $request->nama,
+        'level_id' => $request->level_id,
+    ];
+
+    UserModel::where('user_id', $id)->update($data);
+    return redirect('/user');
+}
+
+
+    public function hapus($id)
+    {
+        $user = UserModel::find($id);
+        $user->delete();
+
+        return redirect('/user');
+    }
+
 }
