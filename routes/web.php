@@ -48,4 +48,10 @@ Route::post('/user/tambah_simpan',[UserController::class,'tambah_simpan'])->name
 //ubah simpan
 Route::post('/user/ubah_simpan', [UserController::class, 'ubah_simpan'])->name('user.ubah_simpan');
 
+Route::get('/kategori', [KategoriController::class, 'index']);
+
+Route::get('/kategori/create', [KategoriController::class, 'create']);
+
+Route::post('/kategori', [KategoriController::class, 'store']);
+
 
