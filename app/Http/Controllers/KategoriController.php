@@ -30,6 +30,9 @@ class KategoriController extends Controller
 
         return $dataTable->render('kategori.index');
 
+        //tampilkan data datatable
+
+
     }
     //create
     public function create()
