@@ -15,7 +15,7 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-    <table class="table table-bordered">
+    <table class="table table-striped">
         <tr>
             <th width="20px" class="text-center">User id</th>
             <th width="150px" class="text-center">Level id</th>
