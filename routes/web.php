@@ -23,6 +23,8 @@ Route::get('/', function () {
 
 //level index
 Route::get('/level', [LevelController::class, 'index']);
+Route::get('/level/add', [LevelController::class, 'add'])->name('/level/add');
+Route::post('/level/add_save', [LevelController::class, 'add_save'])->name('/level/add_save');
 
 //kategori
 Route::get('/kategori', [KategoriController::class, 'index']);
