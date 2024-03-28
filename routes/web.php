@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\POSController;
 
 
 /*
@@ -61,3 +62,4 @@ Route::get('/kategori/update/{id}', [KategoriController::class, 'update'])->name
 Route::put('/kategori/update_save/{id}', [KategoriController::class, 'update_save'])->name('kategori.update_save');
 Route::get('/kategori/delete/{id}', [KategoriController::class, 'delete'])->name('kategori.delete');
 
+Route::resource('m_user', POSController::class);
