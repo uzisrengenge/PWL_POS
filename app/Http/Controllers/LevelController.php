@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\LevelModel;
+use App\Http\Requests\StorePostRequest;
+use Illuminate\Http\RedirectResponse;
 
 class LevelController extends Controller
 {
@@ -30,11 +32,20 @@ class LevelController extends Controller
         return view('add_level');
     }
 
-    public function add_save(Request $request) {
-        LevelModel::create([
-            'level_kode' => $request->level_kode,
-            'level_name' => $request->level_nama
-        ]);
+    // public function add_save(Request $request) {
+        public function add_save(StorePostRequest $request): RedirectResponse {
+        // LevelModel::create([
+        //     'level_kode' => $request->level_kode,
+        //     'level_name' => $request->level_nama
+        // ]);
+
+
+        $validated = $request->validated();
+
+        $validated = $request->safe()->only(['level_kode', 'level_nama']);
+        $validated = $request->safe()->except(['level_kode', 'level_nama']);
+
+
         return redirect('/level');
     }
 }

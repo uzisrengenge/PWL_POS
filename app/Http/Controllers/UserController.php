@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\UserModel;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\StorePostRequest;
+
 
 class UserController extends Controller
 {
@@ -169,16 +172,23 @@ class UserController extends Controller
     }
 
     //ubah simpan
-    public function ubah_simpan(Request $request)
-{
-    $id = $request->user_id; // Change from $request->user_id to $request->id
-    $data = [
-        'username' => $request->username,
-        'nama' => $request->nama,
-        'level_id' => $request->level_id,
-    ];
+    // public function ubah_simpan(Request $request)
+    public function ubah_simpan(StorePostRequest $request): RedirectResponse
 
-    UserModel::where('user_id', $id)->update($data);
+
+{
+    // $id = $request->user_id; // Change from $request->user_id to $request->id
+    // $data = [
+    //     'username' => $request->username,
+    //     'nama' => $request->nama,
+    //     'level_id' => $request->level_id,
+    // ];
+
+    // UserModel::where('user_id', $id)->update($data);
+    $validated = $request->validated();
+
+    $validated = $request->safe()->only(['username', 'nama', 'password', 'level_id']);
+    $validated = $request->safe()->except(['username', 'nama', 'password', 'level_id']);
     return redirect('/user');
 }
 

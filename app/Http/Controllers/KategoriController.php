@@ -55,16 +55,23 @@ class KategoriController extends Controller
     //      return redirect('/kategori');
     // }
 
-    public function store(Request $request): RedirectResponse {
+    // public function store(Request $request): RedirectResponse {
+        public function store(StorePostRequest $request): RedirectResponse {
 
-        $validated = $request->validateWithBag('category', [
-            'kategori_kode' => 'bail|required|unique:m_kategori|max:255',
-            'kategori_nama' => 'required'
-        ]);
-        KategoriModel::create([
-            'kategori_kode' => $validated['kategori_kode'],
-            'kategori_nama' => $validated['kategori_nama']
-        ]);
+
+        // $validated = $request->validateWithBag('categoxry', [
+        //     'kategori_kode' => 'bail|required|unique:m_kategori|max:255',
+        //     'kategori_nama' => 'required'
+        // ]);
+        // KategoriModel::create([
+        //     'kategori_kode' => $validated['kategori_kode'],
+        //     'kategori_nama' => $validated['kategori_nama']
+        // ]);
+
+        $validated = $request->validated();
+
+        $validated = $request->safe()->only(['kategori_kode', 'kategori_nama']);
+        $validated = $request->safe()->except(['kategori_kode', 'kategori_nama']);
 
         return redirect('/kategori');
 
