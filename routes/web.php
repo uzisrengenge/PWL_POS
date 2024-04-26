@@ -7,6 +7,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\POSController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ManagerController;
+
 
 
 
@@ -102,3 +106,28 @@ Route::group(['prefix' => 'barang'], function() {
     Route::delete('/{id}', [BarangController::class, 'destroy']);
 });
 
+Route::get('login', [AuthController::class, 'index'])->name('login');
+Route::get('register', [AuthController::class, 'register'])->name('register');
+Route::post('proses_login', [AuthController::class, 'proses_login'])->name('proses_login');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('proses_register', [AuthController::class, 'proses_register'])->name('proses_register');
+
+/**
+ * use Authentication class using middleware aliases in http/kernel
+ * to redirect users when they are not authenticate
+ */
+Route::group(['middleware' => ['auth']], function () {
+
+    /**
+     * if user is admin
+     */
+    Route::group(['middleware' => ['cek_login:1']], function () {
+        Route::resource('admin', AdminController::class);
+    });
+    /**
+     * if user is manager
+     */
+    Route::group(['middleware' => ['cek_login:2']], function () {
+        Route::resource('manager', ManagerController::class);
+    });
+});
