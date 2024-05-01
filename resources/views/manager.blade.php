@@ -1,4 +1,4 @@
-@extends('layouts.template')
+@extends('layout.template')
 
 @section('subtitle', 'Manager')
 @section('content_header_title', 'Home')

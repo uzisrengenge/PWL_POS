@@ -4,8 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as UserAuthenticate;
 
-class m_user extends Model
+
+class m_user extends UserAuthenticate
+
 {
     use HasFactory;
     protected $table = "m_user";

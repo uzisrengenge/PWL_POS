@@ -2,92 +2,145 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\m_userModel;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class AuthController extends Controller
 {
-   public function index()
-   {
+    public function index(): View|RedirectResponse
+    {
+        /**
+         * save user data
+         */
         $user = Auth::user();
 
-        if ($user){
-            if ($user->level_id == 1) {
-
-                return redirect()->intended('admin');
-            }
-            else if ($user->level_id == 2) {
-                return redirect()->intended('manager');
+        /**
+         * only check user level when user data available
+         */
+        if ($user) {
+            switch ($user->level_id) {
+                case '1':
+                    return redirect()->intended('admin');
+                case '2':
+                    return redirect()->intended('manager');
             }
         }
         return view('login');
-   }
+    }
 
+    /**
+     * action process from form log in
+     */
+    public function proses_login(Request $request): RedirectResponse
+    {
+        /**
+         * in login process, username and password must be filled
+         */
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
 
+        /**
+         * Take only username and password from user data request
+         */
+        $credential = $request->only('username', 'password');
 
-public function proses_login(Request $request)
-{
-    $request -> validate([
-        'username' => 'required',
-        'password' => 'required',
-    ]);
+        /**
+         * if user data isn't valid
+         */
+        if (!Auth::attempt($credential)) {
+            return redirect('login')
+                ->withInput()
+                ->withErrors(['login_gagal' => 'Pastikan kembali username dan password yang dimasukan sudah benar']);
+        }
 
-
-    $credential = $request->only('username','password');
-
-    if (Auth::attempt($credential)) {
-
+        /**
+         * save user data that success log in
+         */
         $user = Auth::user();
-        if ($user->level_id == 1) {
-            return redirect()->intended('admin');
-        }
-        else if ($user->level_id == 2) {
-            return redirect()->intended('manager');
-        }
 
-        return redirect()->intended('/');
+        return redirect()->intended(match ($user->level_id) {
+            /**
+             * if user has admin roles
+             */
+            1 => 'admin',
+            /**
+             * if user has manager roles
+             */
+            2 => 'manager',
+            /**
+             * if user has no roles
+             */
+            default => '/',
+        });
     }
 
-    return redirect('login')->with('error','Username atau Password Salah');
-}
-
-
-//register
-public function register()
-{
-    return view('register');
-
-}
-
-//action register
-public function proses_register(Request $request)
-{
-    $validator::make($request->all(),[
-       'nama' => 'required',
-         'username' => 'required|unique:m_user',
-            'password' => 'require',
-    ]);
-
-    if ($validator->fails()) {
-        return redirect('register')->with('error',$validator->errors());
+    /**
+     * show register view
+     */
+    public function register(): View
+    {
+        return view('register');
     }
 
-    $request['level_id'] = 2;
-    $request['password'] = hash::make($request->password);
+    /**
+     * action process register form
+     */
+    public function proses_register(Request $request): RedirectResponse
+    {
+        /**
+         * make new object validator for register form
+         *
+         * nama and password must be fill, and username must unique in our existing username database
+         */
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required',
+            'username' => 'required|unique:m_user',
+            'password' => 'required',
+        ]);
 
-    m_user::create($request->all());
+        /**
+         * if validate fails, return error from object Validator class
+         */
+        if ($validator->fails()) {
+            return redirect('/register')
+                ->withErrors($validator)
+                ->withInput();
+        }
 
-    return redirect('login')->with('success','Register Berhasil');
+        /**
+         * if register data validated, fill user roles and hashing password
+         */
+        $request['level_id'] = '2';
+        $request['password'] = Hash::make($request->password);
+
+        /**
+         * create user data in database from register form data
+         */
+        m_userModel::create($request->all());
+        return redirect()->route('login');
+    }
+
+    /**
+     * User Logout logic
+     */
+    public function logout(Request $request): RedirectResponse
+    {
+        /**
+         * logout must flush existing session
+         */
+        $request->session()->flush();
+
+        /**
+         * must run logout function in Auth class
+         */
+        Auth::logout();
+        return redirect('login');
+    }
 }
-
-//logout
-public function logout()
-{
-    $request->session()->flush();
-    Auth::logout();
-    return redirect('login');
-
-
-}
-}
-
