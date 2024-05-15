@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\LoginController;
 
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\LogoutController;
+use App\Http\Controllers\Api\LevellController;
+
 
 
 
@@ -31,3 +33,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::post('/logout', LogoutController::class)->name('logout');
 
+Route::get('levels', [LevellController::class, 'index']);
+Route::post('levels', [LevellController::class, 'store']);
+Route::get('levels/{level}', [LevellController::class, 'show']);
+Route::put('levels/{level}', [LevellController::class, 'update']);
+Route::delete('levels/{level}', [LevellController::class, 'destroy']);
