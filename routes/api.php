@@ -8,6 +8,9 @@ use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\LogoutController;
 use App\Http\Controllers\Api\LevellController;
 
+use App\Http\Controllers\Api\BarangController;
+use App\Http\Controllers\Api\KategoriController;
+use App\Http\Controllers\Api\UserrController;
 
 
 
@@ -33,8 +36,28 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::post('/logout', LogoutController::class)->name('logout');
 
-Route::get('levels', [LevellController::class, 'index']);
-Route::post('levels', [LevellController::class, 'store']);
-Route::get('levels/{level}', [LevellController::class, 'show']);
-Route::put('levels/{level}', [LevellController::class, 'update']);
-Route::delete('levels/{level}', [LevellController::class, 'destroy']);
+Route::middleware('auth:api')->get('levels', [LevellController::class, 'index']);
+Route::middleware('auth:api')->post('levels', [LevellController::class, 'store']);
+Route::middleware('auth:api')->get('levels/{level}', [LevellController::class, 'show']);
+Route::middleware('auth:api')->put('levels/{level}', [LevellController::class, 'update']);
+Route::middleware('auth:api')->delete('levels/{level}', [LevellController::class, 'destroy']);
+
+
+
+Route::middleware('auth:api')->get('user', [UserrController::class, 'index']);
+Route::middleware('auth:api')->post('user', [UserrController::class, 'store']);
+Route::middleware('auth:api')->get('user/{user}', [UserrController::class, 'show']);
+Route::middleware('auth:api')->put('user/{user}', [UserrController::class, 'update']);
+Route::middleware('auth:api')->delete('user/{user}', [UserrController::class, 'destroyy']);
+
+Route::middleware('auth:api')->get('barang', [BarangController::class, 'index']);
+Route::middleware('auth:api')->post('barang', [BarangController::class, 'store']);
+Route::middleware('auth:api')->get('barang/{barang}', [BarangController::class, 'show']);
+Route::middleware('auth:api')->put('barang/{barang}', [BarangController::class, 'update']);
+Route::middleware('auth:api')->delete('barang/{barang}', [BarangController::class, 'destroy']);
+
+Route::middleware('auth:api')->get('kategori', [KategoriController::class, 'index']);
+Route::middleware('auth:api')->post('kategori', [KategoriController::class, 'store']);
+Route::middleware('auth:api')->get('kategori/{kategori}', [KategoriController::class, 'show']);
+Route::middleware('auth:api')->put('kategori/{kategori}', [KategoriController::class, 'update']);
+Route::middleware('auth:api')->delete('kategori/{kategori}', [KategoriController::class, 'destroy']);
