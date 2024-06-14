@@ -27,7 +27,7 @@ class UserModel extends Authenticatable implements JWTSubject
     protected $primaryKey = 'user_id'; //to define the primary key of the table used
 
 //    protected $fillable = ['level_id', 'username', 'nama', 'password'];
-    protected $fillable = ['level_id', 'username', 'nama', 'password'];
+    protected $fillable = ['level_id', 'username', 'nama', 'password','image'];
 
     public function level(): BelongsTo
     {

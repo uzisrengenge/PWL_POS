@@ -31,6 +31,8 @@ use App\Http\Controllers\Api\UserrController;
 
 Route::post('/register', RegisterController::class)->name('register');
 Route::post('/login', LoginController::class)->name('login');
+Route::post('/register1', RegisterController::class)->name('register');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
